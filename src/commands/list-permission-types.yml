@@ -1,0 +1,5 @@
+description: Lists the types of permissions that can be set.
+steps:
+  - run:
+      name: Listing permission types
+      command: sudo strings /System/Library/PrivateFrameworks/TCC.framework/Versions/Current/Resources/tccd | grep "^kTCCService[A-Z a-z]"

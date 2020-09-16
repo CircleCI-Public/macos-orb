@@ -1,0 +1,21 @@
+description: Add a permission to the macOS permissions database
+parameters:
+  bundle-id:
+    description: The Bundle ID of the app to grant permissions to
+    type: string
+  permission-type:
+    description: The type of permission to grant
+    type: string
+steps:
+  - run:
+      name: Granting << parameters.permission-type >> permissions to << parameters.bundle-id >>
+      command: |
+          if csrutil status | grep -q 'disabled'; then
+              epochdate=$(($(date +'%s * 1000 + %-N / 1000000')))
+              sudo sqlite3 "/Library/Application Support/com.apple.TCC/TCC.db" "replace into access (service,client,client_type,allowed,prompt_count,indirect_object_identifier,flags,last_modified) values (\"<< parameters.permission-type >>\",\"<< parameters.bundle-id >>\",0,1,1,\"UNUSED\",0,$epochdate);"
+              sudo sqlite3 "/Users/distiller/Library/Application Support/com.apple.TCC/TCC.db" "replace into access (service,client,client_type,allowed,prompt_count,indirect_object_identifier,flags,last_modified) values (\"<< parameters.permission-type >>\",\"<< parameters.bundle-id >>\",0,1,1,\"UNUSED\",0,$epochdate);"
+          else
+              echo "Unable to add permissions! System Integrity Protection is enabled on this image"
+              echo "Please choose an image with SIP disabled. Documentation: https://circleci.com/docs/2.0/testing-macos-apps"
+              exit 1
+          fi
