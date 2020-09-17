@@ -25,11 +25,10 @@ parameters:
 jobs:
   # Define one or more jobs which will utilize your orb's commands and parameters to validate your changes.
   integration-test-1:
-    docker:
-      - image: cimg/base:stable
+    macos:
+      xcode: 12.0.0
     steps:
-      - checkout
-      # - macos-orb/<command-name>
+      - macos-orb/add-uitest-permissions
 
 workflows:
   # Prior to producing a development orb (which requires credentials) basic validation, linting, and even unit testing can be performed.
@@ -39,9 +38,9 @@ workflows:
     jobs:
       - orb-tools/lint # Lint Yaml files
       - orb-tools/pack # Pack orb source
-      - shellcheck/check:
-          dir: ./src/scripts
-          exclude: SC2148
+      # - shellcheck/check:
+      #     dir: ./src/scripts
+      #     exclude: SC2148
       # If you accept building open source forks, protect your secrects behind a restricted context.
       # A job containing restricted context (which holds your orb publishing credentials) may only be accessed by a user with proper permissions.
       # An open source user may begin a pipeline with a PR, and once the pipeline is approved by an authorized user at this point, the pipeline will continue with the proper context permissions.
@@ -50,7 +49,7 @@ workflows:
           requires:
             - orb-tools/lint
             - orb-tools/pack
-            - shellcheck/check
+            # - shellcheck/check
       # Publish development version(s) of the orb.
       - orb-tools/publish-dev:
           orb-name: circleci/serverless-framework

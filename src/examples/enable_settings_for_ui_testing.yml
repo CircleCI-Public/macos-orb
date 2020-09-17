@@ -6,8 +6,23 @@ description: >
 usage:
   version: 2.1
   orbs:
-    <orb-name>: <namespace>/<orb-name>@1.2.3
+    macos: circleci/macos@1.0
+  jobs:
+    test-macos-app:
+      macos:
+        xcode: 12.0.0
+      steps:
+        - checkout
+        - macos/add-uitest-permissions
+        - run: echo 'Test my app'
   workflows:
-    use-my-orb:
+    test-deploy:
       jobs:
-        - <orb-name>/<job-name>
+        - test-macos-app
+        - deploy:
+            requires:
+              - test-macos-app
+            filter:
+              branches:
+                only:
+                  - production
