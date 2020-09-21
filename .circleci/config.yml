@@ -30,7 +30,7 @@ jobs:
     steps:
         - checkout
         - run: echo 'chruby ruby-2.7' >> ~/.bash_profile
-        - macos/add-mac-uitest-permissions
+        - macos-orb/add-mac-uitest-permissions
         - run:
             command: bundle install
             working_directory: ~/project/sample_project
