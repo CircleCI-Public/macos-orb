@@ -14,7 +14,7 @@ usage:
       steps:
           - checkout
           - run: echo 'chruby ruby-2.7' >> ~/.bash_profile
-          - macos/add-mac-uitest-permissions
+          - macos/add-uitest-permissions
           - run: bundle install
           - run: bundle exec fastlane testandbuild
   workflows:
