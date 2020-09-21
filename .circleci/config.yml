@@ -89,9 +89,12 @@ workflows:
       - orb-tools/dev-promote-prod-from-commit-subject:
           orb-name: circleci/macos
           context: orb-publishing
-          add-pr-comment: false
+          ssh-fingerprints: d9:ec:1d:45:c7:9c:e2:a3:b4:84:84:f5:66:33:34:7d
+          add-pr-comment: true
+          bot-token-variable: GHI_TOKEN
+          bot-user: cpe-bot
           fail-if-semver-not-indicated: true
-          publish-version-tag: false
+          publish-version-tag: true
           requires:
             - integration-test-1
           filters:
