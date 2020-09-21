@@ -26,9 +26,17 @@ jobs:
   # Define one or more jobs which will utilize your orb's commands and parameters to validate your changes.
   integration-test-1:
     macos:
-      xcode: 12.0.0
+        xcode: 11.7
     steps:
-      - macos-orb/add-uitest-permissions
+        - checkout
+        - run: echo 'chruby ruby-2.7' >> ~/.bash_profile
+        - macos/add-mac-uitest-permissions
+        - run:
+            command: bundle install
+            working_directory: ~/project/sample_project
+        - run:
+            command: bundle exec fastlane testandbuild
+            working_directory: ~/project/sample_project
 
 workflows:
   # Prior to producing a development orb (which requires credentials) basic validation, linting, and even unit testing can be performed.
