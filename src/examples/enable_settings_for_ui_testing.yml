@@ -1,8 +1,5 @@
 description: >
-  Sample example description.
-# Provide a use-case based example for using this orb.
-# Everything in the `usage` section will be displayed in the orb registry.
-# Comments are not retained.
+  In order to interact with the UI, a user must approve a manual dialog menu in the OS, which is not possible from a "headless" remote environment. Utilize the `add-uitest-permissions` command to disable this permissions check.
 usage:
   version: 2.1
   orbs:

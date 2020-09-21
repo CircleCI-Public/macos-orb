@@ -1,6 +1,6 @@
 version: 2.1
 
 description: >
-  A suite of convenient tools and settings for utilizing MacOS on CircleCI.
+  A suite of convenient tools and settings for testing on MacOS with CircleCI.
 display:
   source_url: "https://github.com/CircleCI-Public/macos-orb"
