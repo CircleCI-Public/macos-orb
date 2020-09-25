@@ -1,0 +1,8 @@
+description: Lists the currently defined permissions in the permissions database.
+steps:
+    - run:
+        name: Listing currently defined permissions in user database
+        command: sudo sqlite3 -column -header "/Users/distiller/Library/Application Support/com.apple.TCC/TCC.db" "select client,service,allowed from access"
+    - run:
+        name: Listing currently defined permissions in system database
+        command: sudo sqlite3 -column -header "/Library/Application Support/com.apple.TCC/TCC.db" "select client,service,allowed from access"

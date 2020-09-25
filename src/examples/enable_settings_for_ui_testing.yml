@@ -1,0 +1,20 @@
+description: >
+  In order to interact with the UI, a user must approve a manual dialog menu in the OS, which is not possible from a "headless" remote environment. Utilize the `add-uitest-permissions` command to disable this permissions check.
+usage:
+  version: 2.1
+  orbs:
+      macos: circleci/macos@1.0
+  jobs:
+    build-test:
+      macos:
+        xcode: 11.7
+      steps:
+          - checkout
+          - run: echo 'chruby ruby-2.7' >> ~/.bash_profile
+          - macos/add-uitest-permissions
+          - run: bundle install
+          - run: bundle exec fastlane testandbuild
+  workflows:
+      verify:
+          jobs:
+              - build-test

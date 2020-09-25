@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   # Replace this with your own!
-  macos-orb: circleci/macos-orb@<<pipeline.parameters.dev-orb-version>>
+  macos-orb: circleci/macos@<<pipeline.parameters.dev-orb-version>>
   orb-tools: circleci/orb-tools@10.0
   bats: circleci/bats@1.0
   shellcheck: circleci/shellcheck@2.0
@@ -25,11 +25,18 @@ parameters:
 jobs:
   # Define one or more jobs which will utilize your orb's commands and parameters to validate your changes.
   integration-test-1:
-    docker:
-      - image: cimg/base:stable
+    macos:
+        xcode: 11.7
     steps:
-      - checkout
-      - macos-orb/<command-name>
+        - checkout
+        - run: echo 'chruby ruby-2.7' >> ~/.bash_profile
+        - macos-orb/add-uitest-permissions
+        - run:
+            command: bundle install
+            working_directory: ~/project/sample_project
+        - run:
+            command: bundle exec fastlane testandbuild
+            working_directory: ~/project/sample_project
 
 workflows:
   # Prior to producing a development orb (which requires credentials) basic validation, linting, and even unit testing can be performed.
@@ -39,12 +46,9 @@ workflows:
     jobs:
       - orb-tools/lint # Lint Yaml files
       - orb-tools/pack # Pack orb source
-      - shellcheck/check:
-          dir: ./src/scripts
-          exclude: SC2148
-      # optional: Run BATS tests against your scripts
-      - bats/run:
-          path: ./src/tests
+      # - shellcheck/check:
+      #     dir: ./src/scripts
+      #     exclude: SC2148
       # If you accept building open source forks, protect your secrects behind a restricted context.
       # A job containing restricted context (which holds your orb publishing credentials) may only be accessed by a user with proper permissions.
       # An open source user may begin a pipeline with a PR, and once the pipeline is approved by an authorized user at this point, the pipeline will continue with the proper context permissions.
@@ -53,11 +57,10 @@ workflows:
           requires:
             - orb-tools/lint
             - orb-tools/pack
-            - bats/run
-            - shellcheck/check
+            # - shellcheck/check
       # Publish development version(s) of the orb.
       - orb-tools/publish-dev:
-          orb-name: circleci/serverless-framework
+          orb-name: circleci/macos
           context: orb-publishing # A restricted context containing your private publishing credentials. Will only execute if approved by an authorized user.
           requires: [hold-for-dev-publish]
       # Trigger an integration workflow to test the
@@ -84,11 +87,14 @@ workflows:
       # be skipped.
       # e.g. [semver:patch] will cause a patch version to be published.
       - orb-tools/dev-promote-prod-from-commit-subject:
-          orb-name: circleci/macos-orb
+          orb-name: circleci/macos
           context: orb-publishing
-          add-pr-comment: false
+          ssh-fingerprints: d9:ec:1d:45:c7:9c:e2:a3:b4:84:84:f5:66:33:34:7d
+          add-pr-comment: true
+          bot-token-variable: GHI_TOKEN
+          bot-user: cpe-bot
           fail-if-semver-not-indicated: true
-          publish-version-tag: false
+          publish-version-tag: true
           requires:
             - integration-test-1
           filters:

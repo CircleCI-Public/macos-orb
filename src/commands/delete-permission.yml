@@ -1,0 +1,20 @@
+description: Delete a permission in the macOS permissions database
+parameters:
+  bundle-id:
+      description: The Bundle ID of the app to grant permissions to
+      type: string
+  permission-type:
+      description: The type of permission to grant
+      type: string
+steps:
+  - run:
+      name: Deleting << parameters.permission-type >> permission for << parameters.bundle-id >>
+      command: |
+          if csrutil status | grep -q 'disabled'; then
+              sudo sqlite3 "/Library/Application Support/com.apple.TCC/TCC.db" "delete from access where (client = \"<< parameters.bundle-id >>\" and service = \"<< parameters.permission-type >>\")"
+              sudo sqlite3 "/Users/distiller/Library/Application Support/com.apple.TCC/TCC.db" "delete from access where (client = \"<< parameters.bundle-id >>\" and service = \"<< parameters.permission-type >>\")"
+          else
+              echo "Unable to add permissions! System Integrity Protection is enabled on this image"
+              echo "Please choose an image with SIP disabled. Documentation: https://circleci.com/docs/2.0/testing-macos-apps"
+              exit 1
+          fi

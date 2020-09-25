@@ -1,0 +1,13 @@
+# fastlane/Fastfile
+default_platform :mac
+
+platform :mac do
+  before_all do
+    setup_circle_ci
+  end
+
+  desc "Run tests"
+  lane :testandbuild do
+    scan
+  end
+end
