@@ -1,6 +1,6 @@
 version: 2.1
 
 description: >
-  A suite of convenient tools and settings for testing on MacOS with CircleCI.
+  Facilitate permissions for UI testing on CircleCI’s macOS executor. Developers can use this orb to add, delete, and list permissions when testing their applications.
 display:
   source_url: "https://github.com/CircleCI-Public/macos-orb"
