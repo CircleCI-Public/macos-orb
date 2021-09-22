@@ -1,0 +1,44 @@
+description: Sets the simulator to a custom location
+parameters:
+  latitude:
+    description: The latitude to set for the custom location
+    type: string
+    default: "51.5032973"
+  longitude:
+    description: The longitude to set for the custom location
+    type: string
+    default: "-0.1195537"
+steps:
+  - run:
+      name: Setting simulator location
+      command: |
+          xcode_major=$(/usr/bin/xcodebuild -version | awk 'NR==1{print $2}' | cut -d. -f1)
+          xcode_minor=$(/usr/bin/xcodebuild -version | awk 'NR==1{print $2}' | cut -d. -f2)
+
+          if [ xcode_major -ge "12" ] || [ xcode_major -eq "11" && xcode_minor -ge "4"]; then
+            tcc_service_accessibility="replace into access (service,client,client_type,auth_value,auth_reason,auth_version,indirect_object_identifier_type,indirect_object_identifier,flags,last_modified) values (\"kTCCServiceAccessibility\",\"/usr/sbin/sshd\",1,2,4,1,0,\"UNUSED\",0,$epochdate);"
+            tcc_service_events="replace into access (service,client,client_type,auth_value,auth_reason,auth_version,indirect_object_identifier_type,indirect_object_identifier,flags,last_modified) values (\"kTCCServiceAppleEvents\",\"/usr/sbin/sshd\",1,2,4,1,0,\"com.apple.systemevents\",0,$epochdate);"
+            sudo sqlite3 "/Library/Application Support/com.apple.TCC/TCC.db" "$tcc_service_accessibility"
+            sudo sqlite3 "/Users/distiller/Library/Application Support/com.apple.TCC/TCC.db" "$tcc_service_accessibility"
+            sudo sqlite3 "/Users/distiller/Library/Application Support/com.apple.TCC/TCC.db" "$tcc_service_events"
+            sudo sqlite3 "/Library/Application Support/com.apple.TCC/TCC.db" "$tcc_service_events"
+            osascript -e '
+              tell application "System Events"
+                tell application "Simulator" to activate
+                delay 5
+                
+                tell process "Simulator"
+                  set frontmost to true
+                  click menu item "Custom Location…" of menu of menu item "Location" of menu "Features" of menu bar 1
+                  
+                  tell window 1
+                    set value of text field 1 to "<< parameters.latitude >>"
+                    set value of text field 2 to "<< parameters.longitude >>"
+                    click button "OK"
+                  end tell
+                end tell
+              end tell'
+          else
+            echo "This command is only supported from Xcode 11.4 and higher"
+            exit 1
+          fi
