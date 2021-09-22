@@ -15,7 +15,7 @@ steps:
                 sudo sqlite3 "/Users/distiller/Library/Application Support/com.apple.TCC/TCC.db" "$tcc_service_accessibility"
                 sudo sqlite3 "/Users/distiller/Library/Application Support/com.apple.TCC/TCC.db" "$tcc_service_events"
                 sudo sqlite3 "/Library/Application Support/com.apple.TCC/TCC.db" "$tcc_service_events"
-                osascript <<EOD
+                osascript \<<EOD
                   tell application "System Events"
                     tell application "Safari" to activate
                     delay 5
