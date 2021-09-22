@@ -25,7 +25,9 @@ steps:
             osascript -e '
               tell application "System Events"
                 tell application "/Applications/Xcode.app/Contents/Developer/Applications/Simulator.app" to activate
-                delay 10
+                repeat until window 1 of process "Simulator" exists
+                  delay 5
+                end repeat
                 tell process "Simulator"
                   set frontmost to true
                   click menu item "Custom Location…" of menu of menu item "Location" of menu "Features" of menu bar 1
