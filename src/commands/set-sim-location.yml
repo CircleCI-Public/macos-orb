@@ -24,7 +24,7 @@ steps:
             osascript -e '
               tell application "System Events"
                 tell application "Simulator" to activate
-                delay 5   
+                delay 5
                 tell process "Simulator"
                   set frontmost to true
                   click menu item "Custom Location…" of menu of menu item "Location" of menu "Features" of menu bar 1
