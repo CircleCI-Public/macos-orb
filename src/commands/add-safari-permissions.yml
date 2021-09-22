@@ -1,4 +1,4 @@
-description: Add Safari automation permissions the macOS permissions database and enable safaridriver testing
+description: Add Safari automation permissions to the macOS permissions database and enable safaridriver testing
 steps:
   - run:
       name: Granting Safari permissions and enabling safaridriver
