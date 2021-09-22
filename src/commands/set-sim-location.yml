@@ -24,8 +24,8 @@ steps:
             sudo sqlite3 "/Library/Application Support/com.apple.TCC/TCC.db" "$tcc_service_events"
             osascript -e '
               tell application "System Events"
-                tell application "Simulator" to activate
-                delay 5
+                tell application "/Applications/Xcode.app/Contents/Developer/Applications/Simulator.app" to activate
+                delay 10
                 tell process "Simulator"
                   set frontmost to true
                   click menu item "Custom Location…" of menu of menu item "Location" of menu "Features" of menu bar 1
