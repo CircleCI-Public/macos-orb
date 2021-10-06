@@ -21,7 +21,7 @@ steps:
       name: Pre-booting paired << parameters.iphone-device >> << parameters.iphone-version >> simulator with << parameters.watch-device >> << parameters.watch-version >>
       command: |
         xcode_major=$(/usr/bin/xcodebuild -version | awk 'NR==1{print $2}' | cut -d. -f1)
-        if [[ xcode_major -ge "12" ]]; then
+        if [[ $xcode_major -ge "12" ]]; then
           ESCAPED_IPHONE_VER=$(echo << parameters.iphone-version >> | tr '.' '-')
           ESCAPED_WATCHOS_VER=$(echo << parameters.watch-version >> | tr '.' '-')
           SIMLIST=$(xcrun simctl list -j)

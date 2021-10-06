@@ -17,7 +17,7 @@ steps:
       name: Pre-booting << parameters.device >> << parameters.platform >> << parameters.version >> simulator
       command: |
         xcode_major=$(/usr/bin/xcodebuild -version | awk 'NR==1{print $2}' | cut -d. -f1)
-        if [[ xcode_major -ge "12" ]]; then
+        if [[ $xcode_major -ge "12" ]]; then
           ESCAPED_VER=$(echo << parameters.version >> | tr '.' '-')
           SIMLIST=$(xcrun simctl list -j)
           UDID=$(echo $SIMLIST | jq -r ".devices.\"com.apple.CoreSimulator.SimRuntime.<< parameters.platform >>-$ESCAPED_VER\"[] | select(.name==\"<< parameters.device >>\").udid")
