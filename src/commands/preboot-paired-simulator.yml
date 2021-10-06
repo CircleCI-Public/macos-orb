@@ -29,7 +29,7 @@ steps:
           WATCH_UDID=$(echo $SIMLIST | jq -r ".devices.\"com.apple.CoreSimulator.SimRuntime.watchOS-$ESCAPED_WATCH_VER\"[] | select(.name==\"<< parameters.watch-device >>\").udid")
           PAIR_UDID=$(xcrun simctl pair $WATCH_UDID $IPHONE_UDID)
           if [ $? -ne 0 ]; then
-            PAIR_UDID=$(echo $SIMLIST | jq -r "".pairs | to_entries[] | select(.value.watch.udid==\"$WATCH_UDID\" and .value.phone.udid==\"$IPHONE_UDID\") | .key")
+            PAIR_UDID=$(echo $SIMLIST | jq -r ".pairs | to_entries[] | select(.value.watch.udid==\"$WATCH_UDID\" and .value.phone.udid==\"$IPHONE_UDID\") | .key")
           fi
           xcrun simctl boot $PAIR_UDID
         else
