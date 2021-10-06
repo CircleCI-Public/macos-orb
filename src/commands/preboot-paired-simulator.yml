@@ -27,7 +27,7 @@ steps:
           SIMLIST=$(xcrun simctl list -j)
           IPHONE_UDID=$(echo $SIMLIST | jq -r ".devices.\"com.apple.CoreSimulator.SimRuntime.iOS-$ESCAPED_IPHONE_VER\"[] | select(.name==\"<< parameters.iphone-device >>\").udid")
           WATCH_UDID=$(echo $SIMLIST | jq -r ".devices.\"com.apple.CoreSimulator.SimRuntime.watchOS-$ESCAPED_WATCHOS_VER\"[] | select(.name==\"<< parameters.watch-device >>\").udid")
-          PAIR_UDID=$(xcrun simctl pair $WATCH_UDID $IPHONE_UDID) || true
+          PAIR_UDID=$(xcrun simctl pair $WATCH_UDID $IPHONE_UDID 2> /dev/null) || true
           if [ -z $PAIR_UDID ]; then
             PAIR_UDID=$(echo $SIMLIST | jq -r ".pairs | to_entries[] | select(.value.watch.udid==\"$WATCH_UDID\" and .value.phone.udid==\"$IPHONE_UDID\") | .key")
           fi
