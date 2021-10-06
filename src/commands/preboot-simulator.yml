@@ -19,5 +19,5 @@ steps:
         ESCAPED_VER=$(echo << parameters.version >> | tr '.' '-')
         ESCAPED_DEVICE=$(echo << parameters.device >> | tr ' ' '-')
         SIMLIST=$(xcrun simctl list -j)
-        UDID=$(echo $SIMLIST | jq -r "".devices.\"com.apple.CoreSimulator.SimRuntime.<< parameters.platform >>-$ESCAPED_VER\"[] | select(.deviceTypeIdentifier==\"com.apple.CoreSimulator.SimDeviceType.$ESCAPED_DEVICE\").udid")
+        UDID=$(echo $SIMLIST | jq -r ".devices.\"com.apple.CoreSimulator.SimRuntime.<< parameters.platform >>-$ESCAPED_VER\"[] | select(.deviceTypeIdentifier==\"com.apple.CoreSimulator.SimDeviceType.$ESCAPED_DEVICE\").udid")
         xcrun simctl boot $UDID
