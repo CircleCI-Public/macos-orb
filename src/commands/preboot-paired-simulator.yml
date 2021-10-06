@@ -1,0 +1,37 @@
+description: Boots a paired iOS and watchOS simulator with the specified devices
+parameters:
+  iphone-device:
+    description: The device type. E.g., "iPhone 13 Pro Max"
+    type: string
+    default: "iPhone 13 Pro Max"
+  iphone-version:
+    description: The OS version. E.g., "15.0"
+    type: string
+    default: "15.0"
+  watch-device:
+    description: The device type. E.g., "Apple Watch Series 7 - 45mm"
+    type: string
+    default: "Apple Watch Series 7 - 45mm"
+  watch-version:
+    description: The OS version. E.g., "8.0"
+    type: string
+    default: "8.0"
+steps:
+  - run:
+      name: Pre-booting << parameters.device >> << parameters.platform >> << parameters.version >> simulator
+      command: |
+        xcode_major=$(/usr/bin/xcodebuild -version | awk 'NR==1{print $2}' | cut -d. -f1)
+        if [[ xcode_major -ge "12" ]]; then
+          ESCAPED_IPHONE_VER=$(echo << parameters.iphone-version >> | tr '.' '-')
+          ESCAPED_WATCHOS_VER=$(echo << parameters.watch-version >> | tr '.' '-')
+          SIMLIST=$(xcrun simctl list -j)
+          IPHONE_UDID=$(echo $SIMLIST | jq -r ".devices.\"com.apple.CoreSimulator.SimRuntime.iOS-$ESCAPED_IPHONE_VER\"[] | select(.name==\"<< parameters.iphone-device >>\").udid")
+          WATCH_UDID=$(echo $SIMLIST | jq -r ".devices.\"com.apple.CoreSimulator.SimRuntime.watchOS-$ESCAPED_WATCH_VER\"[] | select(.name==\"<< parameters.watch-device >>\").udid")
+          PAIR_UDID=$(xcrun simctl pair $WATCH_UDID $IPHONE_UDID)
+          if [ $? -ne 0 ]; then
+            PAIR_UDID=$(echo $SIMLIST | jq -r "".pairs | to_entries[] | select(.value.watch.udid==\"$WATCH_UDID\" and .value.phone.udid==\"$IPHONE_UDID\") | .key")
+          fi
+          xcrun simctl boot $PAIR_UDID
+        else
+          xcrun instruments -w "<< parameters.iphone-device >> (<< parameters.iphone-version >>) + << parameters.watch-device >> (<< parameters.watch-version >>) [" || true
+        fi
