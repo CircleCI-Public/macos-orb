@@ -2,11 +2,7 @@
 
 [![CircleCI Build Status](https://circleci.com/gh/CircleCI-Public/macos-orb.svg?style=shield "CircleCI Build Status")](https://circleci.com/gh/CircleCI-Public/macos-orb) [![CircleCI Orb Version](https://badges.circleci.com/orbs/circleci/macos.svg)](https://circleci.com/orbs/registry/orb/circleci/macos) [![GitHub License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://raw.githubusercontent.com/circleci/macos-orb/main/LICENSE) [![CircleCI Community](https://img.shields.io/badge/community-CircleCI%20Discuss-343434.svg)](https://discuss.circleci.com/c/ecosystem/orbs)
 
-
-
-A macOS orb for CircleCI. Used primarily to enable permissions for UI testing on the macOS executor on CircleCI.
-
-
+A macOS orb for CircleCI containing useful features and tools for macOS based jobs. 
 
 ## Resources
 
