@@ -1,6 +1,6 @@
 version: 2.1
 
 description: >
-  A macOS orb for CircleCI containing useful features and tools for macOS based jobs. 
+  A macOS orb for CircleCI containing useful features and tools for macOS based jobs.
 display:
   source_url: "https://github.com/CircleCI-Public/macos-orb"
