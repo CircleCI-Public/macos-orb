@@ -1,6 +1,6 @@
 # macOS Orb
 
-[![CircleCI Build Status](https://circleci.com/gh/CircleCI-Public/macos-orb.svg?style=shield "CircleCI Build Status")](https://circleci.com/gh/CircleCI-Public/macos-orb) [![CircleCI Orb Version](https://badges.circleci.com/orbs/circleci/macos.svg)](https://circleci.com/orbs/registry/orb/circleci/macos) [![GitHub License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://raw.githubusercontent.com/circleci/macos-orb/master/LICENSE) [![CircleCI Community](https://img.shields.io/badge/community-CircleCI%20Discuss-343434.svg)](https://discuss.circleci.com/c/ecosystem/orbs)
+[![CircleCI Build Status](https://circleci.com/gh/CircleCI-Public/macos-orb.svg?style=shield "CircleCI Build Status")](https://circleci.com/gh/CircleCI-Public/macos-orb) [![CircleCI Orb Version](https://badges.circleci.com/orbs/circleci/macos.svg)](https://circleci.com/orbs/registry/orb/circleci/macos) [![GitHub License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://raw.githubusercontent.com/circleci/macos-orb/main/LICENSE) [![CircleCI Community](https://img.shields.io/badge/community-CircleCI%20Discuss-343434.svg)](https://discuss.circleci.com/c/ecosystem/orbs)
 
 
 
@@ -19,7 +19,7 @@ We welcome [issues](https://github.com/CircleCI-Public/macos-orb/issues) to and 
 
 **To publish a new production version:**
 * Create and push a branch with your new features.
-* When ready to publish a new production version, create a Pull Request from fore _feature branch_ to `master`.
+* When ready to publish a new production version, create a Pull Request from fore _feature branch_ to `main`.
     * The Commit Subject should include `[semver:patch|minor|release|skip]` to indicate the type of semver increment release.
 * On merge, the release will be published to the orb registry automatically.
 
