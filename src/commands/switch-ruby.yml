@@ -1,0 +1,25 @@
+description: Sets the Ruby version in the job
+parameters:
+  version:
+    description: The version of Ruby to switch to
+    type: string
+    default: "2.7"
+steps:
+  - run:
+      name: Setting Ruby version to << parameters.version >>
+      command: |
+          xcode_major=$(/usr/bin/xcodebuild -version | awk 'NR==1{print $2}' | cut -d. -f1)
+          xcode_minor=$(/usr/bin/xcodebuild -version | awk 'NR==1{print $2}' | cut -d. -f2)
+          ruby_ver=<< parameters.version >>
+          if [[ "$ruby_ver" != "system" ]]; then
+            ruby_version="ruby-<< parameters.version >>"
+          else
+            ruby_version="system"
+          fi
+          if [[ $xcode_major -ge "12" ]] || [[ $xcode_major -eq "11" && $xcode_minor -ge "7" ]]; then
+            sed -i '' "s/^chruby.*/chruby ${ruby_version}/g" ~/.bash_profile
+          elif [[ $xcode_major -eq "11" && $xcode_minor -le "1" ]]; then
+            echo "$ruby_version" > ~/.ruby-version
+          else
+            echo "chruby $ruby_version" >> ~/.bash_profile
+          fi
