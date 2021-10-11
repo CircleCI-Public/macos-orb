@@ -1,0 +1,27 @@
+description: Boots the iOS simulator with the specific device
+parameters:
+  device:
+    description: The device type. E.g., "iPhone 12"
+    type: string
+    default: "iPhone 12"
+  platform:
+    description: The platform type. Accepts only "iOS", "watchOS", "tvOS"
+    type: string
+    default: "iOS"
+  version:
+    description: The OS version. E.g., "14.5"
+    type: string
+    default: "14.5"
+steps:
+  - run:
+      name: Pre-booting << parameters.device >> << parameters.platform >> << parameters.version >> simulator
+      command: |
+        xcode_major=$(/usr/bin/xcodebuild -version | awk 'NR==1{print $2}' | cut -d. -f1)
+        if [[ $xcode_major -ge "12" ]]; then
+          ESCAPED_VER=$(echo << parameters.version >> | tr '.' '-')
+          SIMLIST=$(xcrun simctl list -j)
+          UDID=$(echo $SIMLIST | jq -r ".devices.\"com.apple.CoreSimulator.SimRuntime.<< parameters.platform >>-$ESCAPED_VER\"[] | select(.name==\"<< parameters.device >>\").udid")
+          xcrun simctl boot $UDID
+        else
+          xcrun instruments -w "<< parameters.device >> (<< parameters.version >>) [" || true
+        fi
