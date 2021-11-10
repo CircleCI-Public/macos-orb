@@ -29,7 +29,7 @@ jobs:
         xcode: 13.0.0
     steps:
         - checkout
-        - macos-orb/switch-ruby
+        - macos-orb/switch-ruby:
             version: "2.7"
         - macos-orb/add-uitest-permissions
         - run:
