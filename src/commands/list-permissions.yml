@@ -9,7 +9,7 @@ steps:
             else
                 select_query="select client,service,auth_value from access"
             fi
-            sudo sqlite3 -column -header "/Users/$USER/Library/Application Support/com.apple.TCC/TCC.db" "$select_query"
+            sudo sqlite3 -column -header "/Users/distiller/Library/Application Support/com.apple.TCC/TCC.db" "$select_query"
     - run:
         name: Listing currently defined permissions in system database
         command: |
