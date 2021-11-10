@@ -26,10 +26,11 @@ jobs:
   # Define one or more jobs which will utilize your orb's commands and parameters to validate your changes.
   integration-test-1:
     macos:
-        xcode: 11.7
+        xcode: 13.0.0
     steps:
         - checkout
-        - run: echo 'chruby ruby-2.7' >> ~/.bash_profile
+        - macos-orb/switch-ruby:
+            version: "2.7"
         - macos-orb/add-uitest-permissions
         - run:
             command: bundle install
