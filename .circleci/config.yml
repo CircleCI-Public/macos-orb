@@ -51,6 +51,8 @@ jobs:
               npm install
               npm run testci
             working_directory: ~/project/sample_browser_project
+        - store_test_results:
+            path: sample_browser_project/test_results
         - macos-orb/list-permissions
         - macos-orb/preboot-simulator:
             device: "iPhone 13"
@@ -83,6 +85,8 @@ jobs:
               npm install
               npm run testci
             working_directory: ~/project/sample_browser_project
+        - store_test_results:
+            path: sample_browser_project/test_results
         - macos-orb/list-permissions
         - macos-orb/preboot-simulator:
             device: "iPhone 12"
@@ -115,6 +119,8 @@ jobs:
               npm install
               npm run testci
             working_directory: ~/project/sample_browser_project
+        - store_test_results:
+            path: sample_browser_project/test_results
         - macos-orb/list-permissions
         - macos-orb/preboot-simulator:
             device: "iPhone 11"
