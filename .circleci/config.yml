@@ -24,20 +24,102 @@ parameters:
 
 jobs:
   # Define one or more jobs which will utilize your orb's commands and parameters to validate your changes.
-  integration-test-1:
+  integration-test-xcode-13:
     macos:
-        xcode: 13.0.0
+        xcode: 13.2.1
+    steps:
+        - checkout
+        - macos-orb/switch-ruby:
+            version: "3.0"
+        - run:
+            name: Verify Ruby version
+            command: ruby -v | grep "ruby 3.0"
+        - macos-orb/list-permission-types
+        - macos-orb/list-permissions
+        - macos-orb/add-uitest-permissions
+        - run:
+            command: bundle install
+            working_directory: ~/project/sample_mac_project
+        - run:
+            name: Check macOS App UITesting Enabled
+            command: bundle exec fastlane testandbuild
+            working_directory: ~/project/sample_mac_project
+        - macos-orb/add-safari-permissions
+        - run:
+            name: Check Safari Testing
+            command: |
+              npm install
+              npm run testci
+            working_directory: ~/project/sample_browser_project
+        - macos-orb/list-permissions
+        - macos-orb/preboot-simulator:
+            device: "iPhone 13"
+            platform: "iOS"
+            version: "15.2"
+  integration-test-xcode-12:
+    macos:
+        xcode: 12.5.1
     steps:
         - checkout
         - macos-orb/switch-ruby:
             version: "2.7"
+        - run:
+            name: Verify Ruby version
+            command: ruby -v | grep "ruby 2.7"
+        - macos-orb/list-permission-types
+        - macos-orb/list-permissions
         - macos-orb/add-uitest-permissions
         - run:
             command: bundle install
-            working_directory: ~/project/sample_project
+            working_directory: ~/project/sample_mac_project
         - run:
+            name: Check macOS App UITesting Enabled
             command: bundle exec fastlane testandbuild
-            working_directory: ~/project/sample_project
+            working_directory: ~/project/sample_mac_project
+        - macos-orb/add-safari-permissions
+        - run:
+            name: Check Safari Testing
+            command: |
+              npm install
+              npm run testci
+            working_directory: ~/project/sample_browser_project
+        - macos-orb/list-permissions
+        - macos-orb/preboot-simulator:
+            device: "iPhone 12"
+            platform: "iOS"
+            version: "14.5"
+  integration-test-xcode-11:
+    macos:
+        xcode: 11.7.0
+    steps:
+        - checkout
+        - macos-orb/switch-ruby:
+            version: "2.7"
+        - run:
+            name: Verify Ruby version
+            command: ruby -v | grep "ruby 2.7"
+        - macos-orb/list-permission-types
+        - macos-orb/list-permissions
+        - macos-orb/add-uitest-permissions
+        - run:
+            command: bundle install
+            working_directory: ~/project/sample_mac_project
+        - run:
+            name: Check macOS App UITesting Enabled
+            command: bundle exec fastlane testandbuild
+            working_directory: ~/project/sample_mac_project
+        - macos-orb/add-safari-permissions
+        - run:
+            name: Check Safari Testing
+            command: |
+              npm install
+              npm run testci
+            working_directory: ~/project/sample_browser_project
+        - macos-orb/list-permissions
+        - macos-orb/preboot-simulator:
+            device: "iPhone 11"
+            platform: "iOS"
+            version: "13.7"
 
 workflows:
   # Prior to producing a development orb (which requires credentials) basic validation, linting, and even unit testing can be performed.
@@ -80,7 +162,9 @@ workflows:
     when: << pipeline.parameters.run-integration-tests >>
     jobs:
       # Run any integration tests defined within the `jobs` key.
-      - integration-test-1
+      - integration-test-xcode-13
+      - integration-test-xcode-12
+      - integration-test-xcode-11
       # Publish a semver version of the orb. relies on
       # the commit subject containing the text "[semver:patch|minor|major|skip]"
       # as that will determine whether a patch, minor or major
@@ -97,7 +181,9 @@ workflows:
           fail-if-semver-not-indicated: true
           publish-version-tag: true
           requires:
-            - integration-test-1
+            - integration-test-xcode-13
+            - integration-test-xcode-12
+            - integration-test-xcode-11
           filters:
             branches:
               only: main

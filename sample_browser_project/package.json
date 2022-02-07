@@ -1,0 +1,18 @@
+{
+  "name": "sample_browser_project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "testci": "mocha tests --timeout 10000 --reporter mocha-junit-reporter --reporter-options mochaFile=./test_results/junit.xml",
+    "test": "mocha tests --timeout 10000"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.3.6",
+    "mocha": "^9.2.0",
+    "mocha-junit-reporter": "^2.0.2",
+    "selenium-webdriver": "^4.1.1"
+  }
+}
