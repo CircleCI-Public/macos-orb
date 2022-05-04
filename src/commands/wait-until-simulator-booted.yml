@@ -1,0 +1,11 @@
+description: Wait until the simulator has booted.
+parameters:
+  device-udid-var:
+    description: The UDID of the device to wait for
+    type: string
+    default: MACOS_ORB_DEVICE_UDID
+steps:
+  - run:
+      name: Waiting until simulator is booted
+      command: |
+        xcrun simctl bootstatus "${<< parameters.device-udid-var >>}"

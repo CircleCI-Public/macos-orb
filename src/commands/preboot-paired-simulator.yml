@@ -4,18 +4,31 @@ parameters:
     description: The device type. E.g., "iPhone 13 Pro Max"
     type: string
     default: "iPhone 13 Pro Max"
+  iphone-device-udid-var:
+    description: The name of the variable to contain the iphone's UDID e.g. IPHONE_UDID
+    type: string
+    default: MACOS_ORB_IPHONE_UDID
   iphone-version:
     description: The OS version. E.g., "15.0"
     type: string
     default: "15.0"
+  pair-udid-var:
+    description: The name of the variable to contain the pair's UDID e.g. PAIR_UDID
+    type: string
+    default: MACOS_ORB_PAIR_UDID
   watch-device:
     description: The device type. E.g., "Apple Watch Series 7 - 45mm"
     type: string
     default: "Apple Watch Series 7 - 45mm"
+  watch-device-udid-var:
+    description: The name of the variable to contain the watch's UDID e.g. WATCH_UDID
+    type: string
+    default: MACOS_ORB_WATCH_UDID
   watch-version:
     description: The OS version. E.g., "8.0"
     type: string
     default: "8.0"
+
 steps:
   - run:
       name: Pre-booting paired << parameters.iphone-device >> << parameters.iphone-version >> simulator with << parameters.watch-device >> << parameters.watch-version >>
@@ -26,8 +39,11 @@ steps:
           ESCAPED_WATCHOS_VER=$(echo << parameters.watch-version >> | tr '.' '-')
           SIMLIST=$(xcrun simctl list -j)
           IPHONE_UDID=$(echo $SIMLIST | jq -r ".devices.\"com.apple.CoreSimulator.SimRuntime.iOS-$ESCAPED_IPHONE_VER\"[] | select(.name==\"<< parameters.iphone-device >>\").udid")
+          echo "export <<parameters.iphone-device-udid-var>>=$IPHONE_UDID" >> $BASH_ENV
           WATCH_UDID=$(echo $SIMLIST | jq -r ".devices.\"com.apple.CoreSimulator.SimRuntime.watchOS-$ESCAPED_WATCHOS_VER\"[] | select(.name==\"<< parameters.watch-device >>\").udid")
+          echo "export <<parameters.watch-device-udid-var>>=$WATCH_UDID" >> $BASH_ENV
           PAIR_UDID=$(xcrun simctl pair $WATCH_UDID $IPHONE_UDID 2> /dev/null) || true
+          echo "export <<parameters.pair-udid-var>>=$PAIR_UDID" >> $BASH_ENV
           if [ -z $PAIR_UDID ]; then
             PAIR_UDID=$(echo $SIMLIST | jq -r ".pairs | to_entries[] | select(.value.watch.udid==\"$WATCH_UDID\" and .value.phone.udid==\"$IPHONE_UDID\") | .key")
           fi

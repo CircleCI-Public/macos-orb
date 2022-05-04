@@ -4,6 +4,10 @@ parameters:
     description: The device type. E.g., "iPhone 12"
     type: string
     default: "iPhone 12"
+  device-udid-var:
+    description: The name of the variable to contain the device's UDID e.g. IPHONE_UDID
+    type: string
+    default: MACOS_ORB_DEVICE_UDID
   platform:
     description: The platform type. Accepts only "iOS", "watchOS", "tvOS"
     type: string
@@ -21,6 +25,7 @@ steps:
           ESCAPED_VER=$(echo << parameters.version >> | tr '.' '-')
           SIMLIST=$(xcrun simctl list -j)
           UDID=$(echo $SIMLIST | jq -r ".devices.\"com.apple.CoreSimulator.SimRuntime.<< parameters.platform >>-$ESCAPED_VER\"[] | select(.name==\"<< parameters.device >>\").udid")
+          echo "export <<parameters.device-udid-var>>=$UDID" >> $BASH_ENV
           xcrun simctl boot $UDID
         else
           xcrun instruments -w "<< parameters.device >> (<< parameters.version >>) [" || true
