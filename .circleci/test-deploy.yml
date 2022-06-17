@@ -64,6 +64,7 @@ jobs:
             device: << parameters.device-name >>
             platform: << parameters.device-platform >>
             version: << parameters.device-version >>
+        - macos-orb/enable-vnc
 
 workflows:
   test-deploy:

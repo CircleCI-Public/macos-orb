@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<testsuites name='HelloCircleCIUITests.xctest' tests='2' failures='0'>
+  <testsuite name='HelloCircleCIUITests.HelloCircleCIUITests' tests='2' failures='0'>
+    <testcase classname='HelloCircleCIUITests.HelloCircleCIUITests' name='testButtonClick' time='1.705'/>
+    <testcase classname='HelloCircleCIUITests.HelloCircleCIUITests' name='testExample' time='2.078'/>
+  </testsuite>
+</testsuites>
