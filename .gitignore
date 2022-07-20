@@ -3,6 +3,7 @@ orb.yml
 
 ## macOS
 
+.DS_Store
 
 # Xcode
 #
