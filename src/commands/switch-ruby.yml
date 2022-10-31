@@ -25,5 +25,11 @@ steps:
               echo "chruby $ruby_version" >> ~/.bash_profile
             fi
           else
-            rbenv global << parameters.version >>
+            version=<< parameters.version >>
+            needs_fuzzy_matching=$(echo << parameters.version >> | awk -F. '{print NF-1}')
+            if [[ $needs_fuzzy_matching == 1 && << parameters.version >> != "system" ]]; then 
+              version=$(rbenv versions --bare | grep $test | head -n 1)
+            fi
+            rbenv global $version
+            rbenv rehash
           fi
