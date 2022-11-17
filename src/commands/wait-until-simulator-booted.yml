@@ -7,6 +7,6 @@ parameters:
 steps:
   - run:
       name: Waiting until simulator is booted
-      environment: 
+      environment:
         ORB_EVAL_DEVICE_UDID: << parameters.device-udid-var >>
       command: << include(scripts/wait-until-sim-booted.sh) >>

@@ -19,7 +19,7 @@ parameters:
 steps:
   - run:
       name: Pre-booting << parameters.device >> << parameters.platform >> << parameters.version >> simulator
-      environment: 
+      environment:
         ORB_VAL_DEVICE: << parameters.device >>
         ORB_ENV_DEVICE_UDID: << parameters.device-udid-var >>
         ORB_VAL_PLATFORM: << parameters.platform >>
