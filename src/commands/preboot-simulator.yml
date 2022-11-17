@@ -6,7 +6,7 @@ parameters:
     default: "iPhone 12"
   device-udid-var:
     description: The name of the variable to contain the device's UDID e.g. IPHONE_UDID
-    type: string
+    type: env_var_name
     default: MACOS_ORB_DEVICE_UDID
   platform:
     description: The platform type. Accepts only "iOS", "watchOS", "tvOS"
@@ -19,14 +19,9 @@ parameters:
 steps:
   - run:
       name: Pre-booting << parameters.device >> << parameters.platform >> << parameters.version >> simulator
-      command: |
-        xcode_major=$(/usr/bin/xcodebuild -version | awk 'NR==1{print $2}' | cut -d. -f1)
-        if [[ $xcode_major -ge "12" ]]; then
-          ESCAPED_VER=$(echo << parameters.version >> | tr '.' '-')
-          SIMLIST=$(xcrun simctl list -j)
-          UDID=$(echo $SIMLIST | jq -r ".devices.\"com.apple.CoreSimulator.SimRuntime.<< parameters.platform >>-$ESCAPED_VER\"[] | select(.name==\"<< parameters.device >>\").udid")
-          echo "export <<parameters.device-udid-var>>=$UDID" >> $BASH_ENV
-          xcrun simctl boot $UDID
-        else
-          xcrun instruments -w "<< parameters.device >> (<< parameters.version >>) [" || true
-        fi
+      environment: 
+        ORB_VAL_DEVICE: << parameters.device >>
+        ORB_ENV_DEVICE_UDID: << parameters.device-udid-var >>
+        ORB_VAL_PLATFORM: << parameters.platform >>
+        ORB_VAL_VERSION: << parameters.version >>
+      command: << include(scripts/preboot-sim.sh) >>
