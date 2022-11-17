@@ -3,4 +3,4 @@ description: |
 steps:
   - run:
       name: Setting up VoiceOver permissions
-      command: << include(add-voiceover-permissions.sh) >>
+      command: << include(scripts/add-voiceover-permissions.sh) >>
