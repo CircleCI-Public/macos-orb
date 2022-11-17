@@ -1,25 +1,10 @@
-description: Enables VNC and sets up an account for login. Re-run your job using the `Re-run with SSH` feature, set up SSH forwarding on your _local_ machine using `ssh -p 54782 <mac container ip> -L5901:localhost:5900 -N` and connect to the host using `localhost:5901` in your favourite VNC client.
-parameters:
-  username:
-    description: The username of the VNC login account
-    type: string
-    default: vncuser
-  password:
-    description: The password of the VNC login account
-    type: env_var_name
-    default: MAC_ORB_VNC_PASSWORD
-steps:
-  - run:
-      name: Enabling VNC and adding << parameters.username >> account for VNC login
-      environment:
-        ORB_VAL_USERNAME: << parameters.username >>
-        ORB_ENV_PASSWORD: << parameters.password >>
-      command: << include(scripts/enable-vnc.sh) >>
+#!/usr/bin/env bash
+
 printf '\nCreating the user account...'
-sudo /usr/sbin/sysadminctl -addUser vncuser -fullName << parameters.username >> -password $<< parameters.password >> -admin
+sudo /usr/sbin/sysadminctl -addUser vncuser -fullName "${ORB_VAL_USERNAME}" -password "${!ORB_ENV_PASSWORD}" -admin
 
 MAC_VER=$(sw_vers -productVersion | cut -d. -f1)
-if (( $MAC_VER >= 12 )); then
+if (( "$MAC_VER" >= 12 )); then
   printf '\nmacOS12+ requires VNC to be enabled via System Preferences...'
   printf '\nGranting automation permissions...'
   EPOCH=$(($(date +'%s * 1000 + %-N / 1000000')))
