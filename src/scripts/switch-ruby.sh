@@ -23,7 +23,8 @@ else
     needs_fuzzy_matching=$(echo "$ORB_VAL_RUBY_VERSION" | awk -F. '{print NF-1}')
 
     if [[ $needs_fuzzy_matching == 1 && "$ORB_VAL_RUBY_VERSION" != "system" ]]; then
-        version=$(rbenv versions --bare | grep $test | head -n 1)
+        # shellcheck disable=SC2154
+        version=$(rbenv versions --bare | grep "$test" | head -n 1)
     fi
 
     rbenv global "$version"
