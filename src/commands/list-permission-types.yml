@@ -2,4 +2,4 @@ description: Lists the types of permissions that can be set.
 steps:
   - run:
       name: Listing permission types
-      command: << include(scripts/list-permission-types.sh)
+      command: << include(scripts/list-permission-types.sh) >>

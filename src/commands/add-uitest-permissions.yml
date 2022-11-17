@@ -3,4 +3,4 @@ description: |
 steps:
   - run:
       name: Setting up Xcode Helper and Terminal permissions
-      command: << include(scripts/add-uitest-permissions.sh)
+      command: << include(scripts/add-uitest-permissions.sh) >>

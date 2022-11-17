@@ -2,4 +2,4 @@ description: Add Safari automation permissions to the macOS permissions database
 steps:
   - run:
       name: Granting Safari permissions and enabling safaridriver
-      command: << include(scripts/add-safari-permission.sh)
+      command: << include(scripts/add-safari-permission.sh) >>
