@@ -7,6 +7,8 @@ parameters:
 steps:
   - run:
       name: Setting Ruby version to << parameters.version >>
+      environment: 
+        ORB_VAL_RUBY_VERSION: << parameters.version
       command: |
           if ! [ -x "$(command -v rbenv)" ]; then
             xcode_major=$(/usr/bin/xcodebuild -version | awk 'NR==1{print $2}' | cut -d. -f1)
