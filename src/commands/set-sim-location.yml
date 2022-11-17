@@ -11,7 +11,7 @@ parameters:
 steps:
   - run:
       name: Setting simulator location
-      environment: 
+      environment:
         ORB_VAL_LATITUDE: << parameters.latitude >>
         ORB_VAL_LONGITUDE: << parameters.longitude >>
-      command: << include(script/set-sim-location.sh) >>
+      command: << include(scripts/set-sim-location.sh) >>
