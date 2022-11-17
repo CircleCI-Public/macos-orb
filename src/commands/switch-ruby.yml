@@ -8,30 +8,5 @@ steps:
   - run:
       name: Setting Ruby version to << parameters.version >>
       environment: 
-        ORB_VAL_RUBY_VERSION: << parameters.version
-      command: |
-          if ! [ -x "$(command -v rbenv)" ]; then
-            xcode_major=$(/usr/bin/xcodebuild -version | awk 'NR==1{print $2}' | cut -d. -f1)
-            xcode_minor=$(/usr/bin/xcodebuild -version | awk 'NR==1{print $2}' | cut -d. -f2)
-            ruby_ver=<< parameters.version >>
-            if [[ "$ruby_ver" != "system" ]]; then
-              ruby_version="ruby-<< parameters.version >>"
-            else
-              ruby_version="system"
-            fi
-            if [[ $xcode_major -ge "12" ]] || [[ $xcode_major -eq "11" && $xcode_minor -ge "7" ]]; then
-              sed -i '' "s/^chruby.*/chruby ${ruby_version}/g" ~/.bash_profile
-            elif [[ $xcode_major -eq "11" && $xcode_minor -le "1" ]]; then
-              echo "$ruby_version" > ~/.ruby-version
-            else
-              echo "chruby $ruby_version" >> ~/.bash_profile
-            fi
-          else
-            version=<< parameters.version >>
-            needs_fuzzy_matching=$(echo << parameters.version >> | awk -F. '{print NF-1}')
-            if [[ $needs_fuzzy_matching == 1 && << parameters.version >> != "system" ]]; then
-              version=$(rbenv versions --bare | grep $test | head -n 1)
-            fi
-            rbenv global $version
-            rbenv rehash
-          fi
+        ORB_VAL_RUBY_VERSION: << parameters.version >>
+      command: << include(scripts/switch-ruby.sh) >>

@@ -10,7 +10,7 @@ if ! [ -x "$(command -v rbenv)" ]; then
     else
         ruby_version="system"
     fi
-
+    
     if [[ $xcode_major -ge "12" ]] || [[ $xcode_major -eq "11" && $xcode_minor -ge "7" ]]; then
         sed -i '' "s/^chruby.*/chruby ${ruby_version}/g" ~/.bash_profile
     elif [[ $xcode_major -eq "11" && $xcode_minor -le "1" ]]; then
@@ -23,7 +23,7 @@ else
     needs_fuzzy_matching=$(echo "$ORB_VAL_RUBY_VERSION" | awk -F. '{print NF-1}')
 
     if [[ $needs_fuzzy_matching == 1 && "$ORB_VAL_RUBY_VERSION" != "system" ]]; then
-        version=$(rbenv versions --bare | grep "$test" | head -n 1)
+        version=$(rbenv versions --bare | grep $test | head -n 1)
     fi
 
     rbenv global "$version"
