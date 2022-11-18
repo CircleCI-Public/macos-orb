@@ -24,7 +24,7 @@ else
 
     if [[ $needs_fuzzy_matching == 1 && "$ORB_VAL_RUBY_VERSION" != "system" ]]; then
         # shellcheck disable=SC2154
-        version=$(rbenv versions --bare | grep "$test" | head -n 1)
+        version=$(rbenv versions --bare | grep "$ORB_VAL_RUBY_VERSION" | head -n 1)
     fi
 
     rbenv global "$version"
