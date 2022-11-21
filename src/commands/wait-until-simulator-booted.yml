@@ -7,5 +7,6 @@ parameters:
 steps:
   - run:
       name: Waiting until simulator is booted
-      command: |
-        xcrun simctl bootstatus "${<< parameters.device-udid-var >>}"
+      environment:
+        ORB_EVAL_DEVICE_UDID: << parameters.device-udid-var >>
+      command: << include(scripts/wait-until-sim-booted.sh) >>

@@ -2,21 +2,7 @@ description: Lists the currently defined permissions in the permissions database
 steps:
     - run:
         name: Listing currently defined permissions in user database
-        command: |
-            macos_major_version=$(sw_vers -productVersion | awk -F. '{ print $1 }')
-            if [[ $macos_major_version -le 10 ]]; then
-                select_query="select client,service,allowed from access"
-            else
-                select_query="select client,service,auth_value from access"
-            fi
-            sudo sqlite3 -column -header "/Users/$USER/Library/Application Support/com.apple.TCC/TCC.db" "$select_query"
+        command: << include(scripts/list-perms-user.sh) >>
     - run:
         name: Listing currently defined permissions in system database
-        command: |
-            macos_major_version=$(sw_vers -productVersion | awk -F. '{ print $1 }')
-            if [[ $macos_major_version -le 10 ]]; then
-                select_query="select client,service,allowed from access"
-            else
-                select_query="select client,service,auth_value from access"
-            fi
-            sudo sqlite3 -column -header "/Library/Application Support/com.apple.TCC/TCC.db" "$select_query"
+        command: << include(scripts/list-perms-system.sh) >>
