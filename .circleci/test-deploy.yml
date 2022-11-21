@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   macos-orb: circleci/macos@dev:<<pipeline.git.revision>>
-  orb-tools: circleci/orb-tools@11.1
+  orb-tools: circleci/orb-tools@11.5
 
 filters: &filters
   tags:
