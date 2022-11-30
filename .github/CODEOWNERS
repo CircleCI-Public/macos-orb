@@ -1,1 +1,3 @@
-* @CircleCI-Public/cpeng @BytesGuy
+# Automatically request PR reviews from the CPE Team as a whole and the Images subteam
+# Add Adam as lead
+*	@CircleCI-Public/cpeng @CircleCI-Public/images @BytesGuy
