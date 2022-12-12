@@ -1,4 +1,4 @@
-description: Install Rosetta 2 on Apple Silicon executors 
+description: Install Rosetta 2 on Apple Silicon executors
 steps:
   - run:
       name: Installing Rosetta 2
