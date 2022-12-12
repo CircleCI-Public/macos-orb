@@ -1,0 +1,5 @@
+description: Install Rosetta 2 on Apple Silicon executors 
+steps:
+  - run:
+      name: Installing Rosetta 2
+      command: << include(scripts/install-rosetta.sh) >>
