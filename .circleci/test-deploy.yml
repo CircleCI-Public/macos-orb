@@ -110,7 +110,7 @@ workflows:
             - integration-test-xcode-13
             - integration-test-xcode-12
             - integration-test-xcode-11
-          context: orb-publisher
+          context: image-orbs
           github-token: GHI_TOKEN
           filters:
             branches:
