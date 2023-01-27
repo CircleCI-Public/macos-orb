@@ -19,14 +19,17 @@ if ! [ -x "$(command -v rbenv)" ]; then
         echo "chruby $ruby_version" >> ~/.bash_profile
     fi
 else
-    version="$ORB_VAL_RUBY_VERSION"
-    needs_fuzzy_matching=$(echo "$ORB_VAL_RUBY_VERSION" | awk -F. '{print NF-1}')
-
-    if [[ $needs_fuzzy_matching == 1 && "$ORB_VAL_RUBY_VERSION" != "system" ]]; then
-        # shellcheck disable=SC2154
-        version=$(rbenv versions --bare | grep "$ORB_VAL_RUBY_VERSION" | head -n 1)
+    version=$(rbenv versions --bare | grep "$ORB_VAL_RUBY_VERSION" | head -n 1)
+    if [ -z "$version" ]; then
+        printf "\nNo Rubies installed that match version %s\n" "$ORB_VAL_RUBY_VERSION"
+        printf "\nInstalled versions:\n"
+        rbenv versions
+        exit 1
     fi
 
     rbenv global "$version"
     rbenv rehash
+
+    printf "\nSet Ruby version succesfully:\n"
+    rbenv versions
 fi
