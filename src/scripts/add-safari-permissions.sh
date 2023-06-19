@@ -19,7 +19,11 @@ if csrutil status | grep -q 'disabled'; then
           tell process "Safari"
             set frontmost to true
             delay 5
-            click menu item "Preferences…" of menu 1 of menu bar item "Safari" of menu bar 1
+            set settingsLabel to "Preferences…"
+            if menu item "Settings…" of menu 1 of menu bar item "Safari" of menu bar 1 exists then
+              set settingsLabel to "Settings…"
+            end if
+            click menu item settingsLabel of menu 1 of menu bar item "Safari" of menu bar 1
             delay 5
             click button "Advanced" of toolbar 1 of window 1
             delay 5
