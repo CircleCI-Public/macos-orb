@@ -13,6 +13,7 @@ executors:
       xcode:
         type: string
 
+    resource_class: macos.m1.medium.gen
     macos:
       xcode: << parameters.xcode >>
 
@@ -20,7 +21,7 @@ jobs:
   integration-test-xcode:
     parameters:
       ruby-version:
-        default: "2.7"
+        default: "3.2"
         type: string
       device-name:
         type: string
@@ -70,34 +71,34 @@ workflows:
   test-deploy:
     jobs:
       - integration-test-xcode:
-          name: "integration-test-xcode-13"
-          ruby-version: "3.0"
+          name: "integration-test-xcode-15"
+          ruby-version: "3.2"
           device-name: "iPhone 13"
           device-platform: "iOS"
           device-version: "15.2"
           executor:
             name: "macos"
-            xcode: "13.2.1"
+            xcode: "15.0.0"
           filters: *filters
       - integration-test-xcode:
-          name: "integration-test-xcode-12"
-          ruby-version: "2.7"
+          name: "integration-test-xcode-14"
+          ruby-version: "3.2"
           device-name: "iPhone 12"
           device-platform: "iOS"
           device-version: "14.5"
           executor:
             name: "macos"
-            xcode: "12.5.1"
+            xcode: "14.3.1"
           filters: *filters
       - integration-test-xcode:
-          name: "integration-test-xcode-11"
-          ruby-version: "2.7"
+          name: "integration-test-xcode-13"
+          ruby-version: "3.2"
           device-name: "iPhone 11"
           device-platform: "iOS"
           device-version: "13.7"
           executor:
             name: "macos"
-            xcode: "11.7.0"
+            xcode: "13.4.1"
           filters: *filters
       - orb-tools/pack:
           filters: *filters
@@ -107,9 +108,9 @@ workflows:
           pub-type: production
           requires:
             - orb-tools/pack
+            - integration-test-xcode-15
+            - integration-test-xcode-14
             - integration-test-xcode-13
-            - integration-test-xcode-12
-            - integration-test-xcode-11
           context: image-orbs
           github-token: GHI_TOKEN
           filters:
