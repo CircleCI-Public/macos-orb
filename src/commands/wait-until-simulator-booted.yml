@@ -2,7 +2,7 @@ description: Wait until the simulator has booted.
 parameters:
   device-udid-var:
     description: The UDID of the device to wait for
-    type: string
+    type: env_var_name
     default: MACOS_ORB_DEVICE_UDID
 steps:
   - run:
