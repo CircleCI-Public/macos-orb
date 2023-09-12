@@ -19,11 +19,11 @@ if (( "$MAC_VER" >= 13 )); then
   osascript -e "tell application \"System Events\"
     tell process \"System Settings\"
       delay 5
-      click button 1 of group 1 of scroll area 1 of group 1 of group 1 of group 2 of splitter group 1 of group 1 of window "Sharing"
+      click button 1 of group 1 of scroll area 1 of group 1 of group 1 of group 2 of splitter group 1 of group 1 of window \"Sharing\"
       delay 5
-      click radio button "All users" of radio group 1 of group 1 of sheet 1 of window "Sharing"
+      click radio button \"All users\" of radio group 1 of group 1 of sheet 1 of window \"Sharing\"
       delay 5
-      click button 3 of group 1 of sheet 1 of window "Sharing"
+      click button 3 of group 1 of sheet 1 of window \"Sharing\"
     end tell
   end tell
 
