@@ -13,6 +13,9 @@ sudo sqlite3 "$HOME/Library/Application Support/com.apple.TCC/TCC.db" "$TCC"
 
 if (( "$MAC_VER" >= 13 )); then
   printf '\nOpening System Settings...'
+  # Attempt to open the pref pane twice as sometimes it will default to the update pane
+  open x-apple.systempreferences:com.apple.Sharing-Settings.extension
+  sleep 5
   open x-apple.systempreferences:com.apple.Sharing-Settings.extension
 
   printf '\nRunning AppleScript. Please wait ~20 seconds...'
