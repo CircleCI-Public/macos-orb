@@ -25,14 +25,9 @@ if (( "$MAC_VER" >= 13 )); then
       click button 1 of group 1 of scroll area 1 of group 1 of group 1 of group 2 of splitter group 1 of group 1 of window \"Sharing\"
       delay 5
     end tell
-  end tell
+  end tell"
 
-  repeat until application \"System Settings\" is not running
-    tell application \"System Settings\"
-      quit
-      delay 2
-    end tell
-  end repeat"
+  sudo killall "System Settings"
 else
   printf '\nOpening System Preferences...'
   open -b com.apple.systempreferences /System/Library/PreferencePanes/SharingPref.prefPane
@@ -43,18 +38,10 @@ else
       delay 5
       click checkbox 1 of row 7 of table 1 of scroll area 1 of group 1 of window \"Sharing\"
       delay 5
-      click checkbox 1 of row 2 of table 1 of scroll area 1 of group 1 of window 1
-      delay 5
-      click radio button \"All users\" of radio group 1 of group 1 of window \"Sharing\"
     end tell
-  end tell
+  end tell"
 
-  repeat until application \"System Preferences\" is not running
-    tell application \"System Preferences\"
-      quit
-      delay 2
-    end tell
-  end repeat"
+  sudo killall "System Settings"
 fi
 
 printf '\nDone!...'
