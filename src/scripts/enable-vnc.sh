@@ -41,7 +41,7 @@ else
     end tell
   end tell"
 
-  sudo killall "System Settings"
+  sudo killall "System Preferences"
 fi
 
 printf '\nDone!...'
