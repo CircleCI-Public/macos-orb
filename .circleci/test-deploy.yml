@@ -17,11 +17,6 @@ executors:
     macos:
       xcode: << parameters.xcode >>
 
-    resource_class: macos.x86.medium.gen2
-    macos:
-      xcode: << parameters.xcode >>
-
-
 jobs:
   integration-test-xcode:
     parameters:
