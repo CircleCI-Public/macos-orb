@@ -73,7 +73,7 @@ workflows:
       - integration-test-xcode:
           name: "integration-test-xcode-15"
           ruby-version: "3.2"
-          device-name: "iPhone 14"
+          device-name: "iPhone 15"
           device-platform: "iOS"
           device-version: "17.0"
           executor:
