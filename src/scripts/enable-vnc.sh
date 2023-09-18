@@ -44,8 +44,10 @@ else
   sudo killall "System Preferences"
 fi
 
-printf '\nDone! To Access VNC, run the following command to forward the VNC port:'
+printf '\nDone! To Access VNC (SSH jobs only), run the following command to forward the VNC port:'
 IP=$(ifconfig en0 | awk '/inet / {print $2}')
 printf '\nssh -p 54782 %s -L5901:localhost:5900 -N' "$IP"
-printf '\nThen point your VNC client to localhost:5901 and use username %s and' "MAC_ORB_VNC_USERNAME"
-printf '\nthe password set in your MAC_ORB_VNC_PASSWORD project environment variable\n'
+printf '\nThen point your VNC client to localhost:5901 and use username %s and' "$MAC_ORB_VNC_USERNAME"
+printf '\nthe password set in your MAC_ORB_VNC_PASSWORD project environment variable'
+printf '\n\nTo view the screen for the distiller user, we recommend using the Screen Sharing app'
+printf '\nincluded with macOS and choose the "Share The Display" option when logging in to VNC'
