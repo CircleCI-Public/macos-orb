@@ -71,6 +71,36 @@ workflows:
   test-deploy:
     jobs:
       - integration-test-xcode:
+          name: "integration-test-xcode-15-3"
+          ruby-version: "3.2"
+          device-name: "iPhone 15"
+          device-platform: "iOS"
+          device-version: "17.4"
+          executor:
+            name: "macos"
+            xcode: "15.3.0"
+          filters: *filters
+      - integration-test-xcode:
+          name: "integration-test-xcode-15-2"
+          ruby-version: "3.2"
+          device-name: "iPhone 15"
+          device-platform: "iOS"
+          device-version: "17.2"
+          executor:
+            name: "macos"
+            xcode: "15.2.0"
+          filters: *filters
+      - integration-test-xcode:
+          name: "integration-test-xcode-15-1"
+          ruby-version: "3.2"
+          device-name: "iPhone 15"
+          device-platform: "iOS"
+          device-version: "17.2"
+          executor:
+            name: "macos"
+            xcode: "15.1.0"
+          filters: *filters
+      - integration-test-xcode:
           name: "integration-test-xcode-15"
           ruby-version: "3.2"
           device-name: "iPhone 15"
@@ -108,6 +138,9 @@ workflows:
           pub-type: production
           requires:
             - orb-tools/pack
+            - integration-test-xcode-15-3
+            - integration-test-xcode-15-2
+            - integration-test-xcode-15-1
             - integration-test-xcode-15
             - integration-test-xcode-14
             - integration-test-xcode-13
