@@ -27,14 +27,39 @@ if csrutil status | grep -q 'disabled'; then
             delay 5
             click button "Advanced" of toolbar 1 of window 1
             delay 5
-            tell checkbox "Show Develop menu in menu bar" of group 1 of group 1 of window 1
-              if value is 0 then click it
+            set menuItem to "Show Develop menu in menu bar"
+            if checkbox "Show features for web developers" of group 1 of group 1 of window 1 exists then
+              set menuItem to "Show features for web developers"
+            end if
+            if menuItem is "Show Develop menu in menu bar" then
+              tell checkbox "Show Develop menu in menu bar" of group 1 of group 1 of window 1
+                if value is 0 then click it
+                delay 5
+              end tell
+              click button 1 of window 1
               delay 5
-            end tell
-            click button 1 of window 1
-            delay 5
-            click menu item "Allow Remote Automation" of menu 1 of menu bar item "Develop" of menu bar 1
-            delay 5
+              click menu item "Allow Remote Automation" of menu 1 of menu bar item "Develop" of menu bar 1
+              delay 5
+            else
+              tell checkbox "Show features for web developers" of group 1 of group 1 of window 1
+                if value is 0 then click it
+                delay 5
+              end tell
+              click button 1 of window 1
+              delay 5
+              click menu item settingsLabel of menu 1 of menu bar item "Safari" of menu bar 1
+              delay 5
+              click button "Developer" of toolbar 1 of window 1
+              delay 5
+              if checkbox "Allow remote automation" of group 1 of group 1 of window 1 exists then
+                tell checkbox "Allow remote automation" of group 1 of group 1 of window 1
+                  if value is 0 then click it
+                  delay 5
+                end tell
+              end if
+              click button 1 of window 1
+              delay 5
+            end if
           end tell
         end tell'
     fi
