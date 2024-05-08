@@ -15,3 +15,4 @@ steps:
         ORB_VAL_USERNAME: << parameters.username >>
         ORB_ENV_PASSWORD: << parameters.password >>
       command: << include(scripts/enable-vnc.sh) >>
+      background: true
