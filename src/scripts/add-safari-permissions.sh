@@ -18,8 +18,8 @@ if csrutil status | grep -q 'disabled'; then
 
       mkdir -p "$HOME/Library/WebDriver"
       plist="$HOME/Library/WebDriver/com.apple.Safari.plist"
-      /usr/libexec/PlistBuddy -c 'delete AllowRemoteAutomation' "$plist" || true
-      /usr/libexec/PlistBuddy -c 'add AllowRemoteAutomation bool true' "$plist"
+      /usr/libexec/PlistBuddy -c 'delete AllowRemoteAutomation' "$plist" > /dev/null 2>&1 || true
+      /usr/libexec/PlistBuddy -c 'add AllowRemoteAutomation bool true' "$plist" > /dev/null 2>&1
     fi
 else
     echo "Unable to add permissions! System Integrity Protection is enabled on this image"
