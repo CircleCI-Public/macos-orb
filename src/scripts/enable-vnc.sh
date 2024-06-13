@@ -15,7 +15,7 @@ sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resourc
   -restart -agent -privs -all
 
 printf '\nDone! To Access VNC (SSH jobs only), run the following command to forward the VNC port:'
-IP=$(ifconfig en0 | awk '/inet / {print $2}')
+IP=$(dig -4 TXT +short o-o.myaddr.l.google.com @ns1.google.com | sed s/\"//g)
 printf '\nssh -p 54782 %s -L5901:localhost:5900 -N' "$IP"
 printf '\nThen point your VNC client to localhost:5901 and use username %s and' "$MAC_ORB_VNC_USERNAME"
 printf '\nthe password set in your MAC_ORB_VNC_PASSWORD project environment variable'
