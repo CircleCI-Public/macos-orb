@@ -12,33 +12,15 @@ if csrutil status | grep -q 'disabled'; then
       sudo sqlite3 "/Users/$USER/Library/Application Support/com.apple.TCC/TCC.db" "$tcc_service_accessibility"
       sudo sqlite3 "/Users/$USER/Library/Application Support/com.apple.TCC/TCC.db" "$tcc_service_events"
       sudo sqlite3 "/Library/Application Support/com.apple.TCC/TCC.db" "$tcc_service_events"
-      osascript -e '
-        tell application "System Events"
-          tell application "Safari" to activate
-          delay 15
-          tell process "Safari"
-            set frontmost to true
-            delay 5
-            set settingsLabel to "Preferences…"
-            if menu item "Settings…" of menu 1 of menu bar item "Safari" of menu bar 1 exists then
-              set settingsLabel to "Settings…"
-            end if
-            click menu item settingsLabel of menu 1 of menu bar item "Safari" of menu bar 1
-            delay 5
-            click button "Advanced" of toolbar 1 of window 1
-            delay 5
-            tell checkbox "Show Develop menu in menu bar" of group 1 of group 1 of window 1
-              if value is 0 then click it
-              delay 5
-            end tell
-            click button 1 of window 1
-            delay 5
-            click menu item "Allow Remote Automation" of menu 1 of menu bar item "Develop" of menu bar 1
-            delay 5
-          end tell
-        end tell'
+
+      # enable remote browser automation tool
+      sudo safaridriver --enable
+
+      mkdir -p "$HOME/Library/WebDriver"
+      plist="$HOME/Library/WebDriver/com.apple.Safari.plist"
+      /usr/libexec/PlistBuddy -c 'delete AllowRemoteAutomation' "$plist" > /dev/null 2>&1 || true
+      /usr/libexec/PlistBuddy -c 'add AllowRemoteAutomation bool true' "$plist" > /dev/null 2>&1
     fi
-    sudo safaridriver --enable
 else
     echo "Unable to add permissions! System Integrity Protection is enabled on this image"
     echo "Please choose an image with SIP disabled. Documentation: https://circleci.com/docs/2.0/testing-macos"
