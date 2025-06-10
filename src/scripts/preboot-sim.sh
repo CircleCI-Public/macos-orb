@@ -5,7 +5,7 @@ SIMREQ_not_found() {
     echo "ERROR!: Simulator runtime not found"
     echo "Requested: Simulator Runtime: ${1}"
     echo "Available Runtimes:"
-    echo "$(echo "${SIMLIST}" | jq -r '.devices | keys[] | select(startswith("com.apple.CoreSimulator.SimRuntime."))')"
+    echo "${SIMLIST}" | jq -r '.devices | keys[] | select(startswith("com.apple.CoreSimulator.SimRuntime."))'
     exit 1
 }
 
