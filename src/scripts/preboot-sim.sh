@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 
+SIMREQ_not_found() {
+    # arguments: requested simulator runtime
+    echo "ERROR!: Simulator runtime not found"
+    echo "Requested: Simulator Runtime: ${1}"
+    echo "Available Runtimes:"
+    echo "${SIMLIST}" | jq -r '.devices | keys[] | select(startswith("com.apple.CoreSimulator.SimRuntime."))'
+    exit 1
+}
+
 UDID_not_found() {
     # arguments: requested simulator, device
     SIMS=$(xcrun simctl list devices | tail -n +2)
@@ -15,6 +24,10 @@ if [[ $xcode_major -ge "12" ]]; then
     ESCAPED_VER=$(echo "$ORB_VAL_VERSION" | tr '.' '-')
     SIMREQ="${ORB_VAL_PLATFORM}-${ESCAPED_VER}"
     SIMLIST=$(xcrun simctl list -j)
+
+    if ! echo "${SIMLIST}" | jq -e ".devices | has(\"com.apple.CoreSimulator.SimRuntime.${SIMREQ}\")" > /dev/null; then
+        SIMREQ_not_found "${SIMREQ}"
+    fi
 
     UDID=$(echo "${SIMLIST}" | jq -r ".devices.\"com.apple.CoreSimulator.SimRuntime.${SIMREQ}\"[] | select(.name==\"${ORB_VAL_DEVICE}\").udid")
     if [[ -z "${UDID}" ]]; then
