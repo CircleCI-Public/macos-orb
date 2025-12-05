@@ -15,7 +15,7 @@ executors:
       class:
         type: string
 
-    resource_class: << parameters.clas >>
+    resource_class: << parameters.class >>
     macos:
       xcode: << parameters.xcode >>
 
