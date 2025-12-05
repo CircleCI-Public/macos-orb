@@ -13,7 +13,7 @@ executors:
       xcode:
         type: string
 
-    resource_class: macos.m1.medium.gen1
+    resource_class: m4pro.medium
     macos:
       xcode: << parameters.xcode >>
 
