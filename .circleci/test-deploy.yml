@@ -74,7 +74,7 @@ workflows:
     jobs:
       - integration-test-xcode:
           name: "integration-test-xcode-26-2"
-          ruby-version: "4"
+          ruby-version: "3.3.4 "
           device-name: "iPhone 15"
           device-platform: "iOS"
           device-version: "17.5"
@@ -84,7 +84,7 @@ workflows:
             class: m4pro.medium
       - integration-test-xcode:
           name: "integration-test-xcode-16-4"
-          ruby-version: "3.4"
+          ruby-version: "3.3.4 "
           device-name: "iPhone 15"
           device-platform: "iOS"
           device-version: "17.5"
@@ -94,7 +94,7 @@ workflows:
             class: m4pro.medium
       - integration-test-xcode:
           name: "integration-test-xcode-16"
-          ruby-version: "3.4"
+          ruby-version: "3.3.4 "
           device-name: "iPhone 15"
           device-platform: "iOS"
           device-version: "17.5"
