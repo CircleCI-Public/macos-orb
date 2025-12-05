@@ -12,8 +12,10 @@ executors:
     parameters:
       xcode:
         type: string
+      class:
+        type: string
 
-    resource_class: m4pro.medium
+    resource_class: << parameters.clas >>
     macos:
       xcode: << parameters.xcode >>
 
@@ -71,6 +73,48 @@ workflows:
   test-deploy:
     jobs:
       - integration-test-xcode:
+          name: "integration-test-xcode-26-2"
+          ruby-version: "3.2"
+          device-name: "iPhone 15"
+          device-platform: "iOS"
+          device-version: "17.4"
+          executor:
+            name: "macos"
+            xcode: "26.2.0"
+            class: m4pro.medium
+      - integration-test-xcode:
+          name: "integration-test-xcode-16-4"
+          ruby-version: "3.2"
+          device-name: "iPhone 15"
+          device-platform: "iOS"
+          device-version: "17.4"
+          executor:
+            name: "macos"
+            xcode: "16.4.0"
+            class: m4pro.medium
+      - integration-test-xcode:
+          name: "integration-test-xcode-16"
+          ruby-version: "3.2"
+          device-name: "iPhone 15"
+          device-platform: "iOS"
+          device-version: "17.4"
+          executor:
+            name: "macos"
+            xcode: "16.0.0"
+            class: m4pro.medium
+          filters: *filters
+      - integration-test-xcode:
+          name: "integration-test-xcode-15-4"
+          ruby-version: "3.2"
+          device-name: "iPhone 15"
+          device-platform: "iOS"
+          device-version: "17.4"
+          executor:
+            name: "macos"
+            xcode: "15.4.0"
+            class: m2pro.medium
+          filters: *filters
+      - integration-test-xcode:
           name: "integration-test-xcode-15-3"
           ruby-version: "3.2"
           device-name: "iPhone 15"
@@ -79,6 +123,7 @@ workflows:
           executor:
             name: "macos"
             xcode: "15.3.0"
+            class: m2pro.medium
           filters: *filters
       - integration-test-xcode:
           name: "integration-test-xcode-15-2"
@@ -89,6 +134,7 @@ workflows:
           executor:
             name: "macos"
             xcode: "15.2.0"
+            class: m2pro.medium
           filters: *filters
       - integration-test-xcode:
           name: "integration-test-xcode-15-1"
@@ -99,6 +145,7 @@ workflows:
           executor:
             name: "macos"
             xcode: "15.1.0"
+            class: m2pro.medium
           filters: *filters
       - integration-test-xcode:
           name: "integration-test-xcode-15"
@@ -109,6 +156,7 @@ workflows:
           executor:
             name: "macos"
             xcode: "15.0.0"
+            class: m2pro.medium
           filters: *filters
       - integration-test-xcode:
           name: "integration-test-xcode-14"
@@ -119,6 +167,7 @@ workflows:
           executor:
             name: "macos"
             xcode: "14.3.1"
+            class: m2pro.medium
           filters: *filters
       - integration-test-xcode:
           name: "integration-test-xcode-13"
@@ -129,6 +178,7 @@ workflows:
           executor:
             name: "macos"
             xcode: "13.4.1"
+            class: m2pro.mediume
           filters: *filters
       - orb-tools/pack:
           filters: *filters
