@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+set -x
 if command -v rbenv >/dev/null 2>&1; then
     ruby_ver="$ORB_VAL_RUBY_VERSION"
     if [[ "$ruby_ver" != "system" ]]; then
@@ -38,3 +38,4 @@ else
         echo "chruby $ruby_version" >> ~/.bash_profile
     fi
 fi
+set +x 
