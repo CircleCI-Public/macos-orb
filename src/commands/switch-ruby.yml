@@ -3,7 +3,7 @@ parameters:
   version:
     description: The version of Ruby to switch to
     type: string
-    default: "2.7"
+    default: "4.0.5"
 steps:
   - run:
       name: Setting Ruby version to << parameters.version >>
