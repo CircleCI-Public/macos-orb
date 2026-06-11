@@ -73,7 +73,7 @@ workflows:
       - integration-test-xcode:
           name: "integration-test-xcode-26-5"
           ruby-version: "3.2"
-          device-name: "iPhone 16"
+          device-name: "iPhone 17"
           device-platform: "iOS"
           device-version: "26.5"
           executor:
