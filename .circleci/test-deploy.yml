@@ -13,7 +13,7 @@ executors:
       xcode:
         type: string
 
-    resource_class: macos.m1.medium.gen1
+    resource_class: m4pro.medium
     macos:
       xcode: << parameters.xcode >>
 
@@ -71,64 +71,44 @@ workflows:
   test-deploy:
     jobs:
       - integration-test-xcode:
-          name: "integration-test-xcode-15-3"
+          name: "integration-test-xcode-26-5"
           ruby-version: "3.2"
-          device-name: "iPhone 15"
+          device-name: "iPhone 16"
           device-platform: "iOS"
-          device-version: "17.4"
+          device-version: "26.5"
           executor:
             name: "macos"
-            xcode: "15.3.0"
+            xcode: "26.5.0"
           filters: *filters
       - integration-test-xcode:
-          name: "integration-test-xcode-15-2"
+          name: "integration-test-xcode-16-4"
           ruby-version: "3.2"
-          device-name: "iPhone 15"
+          device-name: "iPhone 16"
           device-platform: "iOS"
-          device-version: "17.2"
+          device-version: "18.5"
           executor:
             name: "macos"
-            xcode: "15.2.0"
+            xcode: "16.4.0"
           filters: *filters
       - integration-test-xcode:
-          name: "integration-test-xcode-15-1"
+          name: "integration-test-xcode-15-4"
           ruby-version: "3.2"
           device-name: "iPhone 15"
           device-platform: "iOS"
-          device-version: "17.2"
+          device-version: "17.5"
           executor:
             name: "macos"
-            xcode: "15.1.0"
-          filters: *filters
-      - integration-test-xcode:
-          name: "integration-test-xcode-15"
-          ruby-version: "3.2"
-          device-name: "iPhone 15"
-          device-platform: "iOS"
-          device-version: "17.0"
-          executor:
-            name: "macos"
-            xcode: "15.0.0"
+            xcode: "15.4.0"
           filters: *filters
       - integration-test-xcode:
           name: "integration-test-xcode-14"
           ruby-version: "3.2"
-          device-name: "iPhone 13"
+          device-name: "iPhone 14"
           device-platform: "iOS"
-          device-version: "15.5"
+          device-version: "16.4"
           executor:
             name: "macos"
             xcode: "14.3.1"
-          filters: *filters
-      - integration-test-xcode:
-          name: "integration-test-xcode-13"
-          ruby-version: "3.2"
-          device-name: "iPhone 12"
-          device-platform: "iOS"
-          device-version: "14.5"
-          executor:
-            name: "macos"
-            xcode: "13.4.1"
           filters: *filters
       - orb-tools/pack:
           filters: *filters
@@ -139,13 +119,11 @@ workflows:
           pub-type: production
           requires:
             - orb-tools/pack
-            - integration-test-xcode-15-3
-            - integration-test-xcode-15-2
-            - integration-test-xcode-15-1
-            - integration-test-xcode-15
+            - integration-test-xcode-26-5
+            - integration-test-xcode-16-4
+            - integration-test-xcode-15-4
             - integration-test-xcode-14
-            - integration-test-xcode-13
-          context: image-orbs
+          context: orb-publisher
           github-token: GHI_TOKEN
           filters:
             branches:
