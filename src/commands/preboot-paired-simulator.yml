@@ -12,7 +12,7 @@ parameters:
   iphone-version:
     description: The OS version. E.g., "15.0"
     type: string
-    default: "15.0"
+    default: "18.0"
   pair-udid-var:
     description: The name of the variable to contain the pair's UDID e.g. PAIR_UDID
     type: env_var_name
@@ -28,7 +28,7 @@ parameters:
   watch-version:
     description: The OS version. E.g., "8.0"
     type: string
-    default: "8.0"
+    default: "11.0"
 
 steps:
   - run:

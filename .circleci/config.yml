@@ -24,10 +24,11 @@ workflows:
       - orb-tools/publish:
           orb-name: circleci/macos
           vcs-type: << pipeline.project.type >>
+          enable-pr-comment: false
           requires:
             [orb-tools/lint, orb-tools/review, orb-tools/pack, shellcheck/check]
           # Use a context to hold your publishing token.
-          context: image-orbs
+          context: orb-publisher
           github-token: GHI_TOKEN
           filters: *filters
       # Triggers the next workflow in the Orb Development Kit.
