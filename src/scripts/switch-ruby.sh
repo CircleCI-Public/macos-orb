@@ -3,7 +3,8 @@
 if command -v rbenv >/dev/null 2>&1; then
     ruby_ver="$ORB_VAL_RUBY_VERSION"
     if [[ "$ruby_ver" != "system" ]]; then
-        ruby_version=$(rbenv versions --bare | grep "$ORB_VAL_RUBY_VERSION" | head -n 1)
+        # `|| true` so a non-matching grep doesn't abort under `set -eo pipefail`
+        ruby_version=$(rbenv versions --bare | { grep "$ORB_VAL_RUBY_VERSION" || true; } | head -n 1)
         if [[ -z "$ruby_version" ]]; then
             printf "\nNo Rubies installed that match version %s\n" "$ORB_VAL_RUBY_VERSION"
             printf "\nInstalled versions:\n"
